@@ -666,22 +666,12 @@
                 </para>
 
                 <para>
-                    When you generate a dependency graph, BitBake writes four files
+                    When you generate a dependency graph, BitBake writes a file
                     to the current working directory:
                     <itemizedlist>
-                        <listitem><para><emphasis><filename>package-depends.dot</filename>:</emphasis>
-                            Shows BitBake's knowledge of dependencies between
-                            runtime targets.
-                            </para></listitem>
-                        <listitem><para><emphasis><filename>pn-depends.dot</filename>:</emphasis>
-                            Shows dependencies between build-time targets
-                            (i.e. recipes).
-                            </para></listitem>
-                        <listitem><para><emphasis><filename>task-depends.dot</filename>:</emphasis>
+                        <listitem><para>
+                            <emphasis><filename>task-depends.dot</filename>:</emphasis>
                             Shows dependencies between tasks.
-                            </para></listitem>
-                        <listitem><para><emphasis><filename>pn-buildlist</filename>:</emphasis>
-                            Shows a simple list of targets that are to be built.
                             </para></listitem>
                     </itemizedlist>
                 </para>
