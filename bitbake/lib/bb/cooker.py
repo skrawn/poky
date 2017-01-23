@@ -949,49 +949,6 @@ class BBCooker:
 
         depgraph = self.generateTaskDepTreeData(pkgs_to_build, task)
 
-        # Prints a flattened form of package-depends below where subpackages of a package are merged into the main pn
-        depends_file = open('pn-depends.dot', 'w' )
-        buildlist_file = open('pn-buildlist', 'w' )
-        print("digraph depends {", file=depends_file)
-        for pn in depgraph["pn"]:
-            fn = depgraph["pn"][pn]["filename"]
-            version = depgraph["pn"][pn]["version"]
-            print('"%s" [label="%s %s\\n%s"]' % (pn, pn, version, fn), file=depends_file)
-            print("%s" % pn, file=buildlist_file)
-        buildlist_file.close()
-        logger.info("PN build list saved to 'pn-buildlist'")
-        for pn in depgraph["depends"]:
-            for depend in depgraph["depends"][pn]:
-                print('"%s" -> "%s" [style=solid]' % (pn, depend), file=depends_file)
-        for pn in depgraph["rdepends-pn"]:
-            for rdepend in depgraph["rdepends-pn"][pn]:
-                print('"%s" -> "%s" [style=dashed]' % (pn, rdepend), file=depends_file)
-        print("}", file=depends_file)
-        depends_file.close()
-        logger.info("PN dependencies saved to 'pn-depends.dot'")
-
-        depends_file = open('package-depends.dot', 'w' )
-        print("digraph depends {", file=depends_file)
-        for package in depgraph["packages"]:
-            pn = depgraph["packages"][package]["pn"]
-            fn = depgraph["packages"][package]["filename"]
-            version = depgraph["packages"][package]["version"]
-            if package == pn:
-                print('"%s" [label="%s %s\\n%s"]' % (pn, pn, version, fn), file=depends_file)
-            else:
-                print('"%s" [label="%s(%s) %s\\n%s"]' % (package, package, pn, version, fn), file=depends_file)
-            for depend in depgraph["depends"][pn]:
-                print('"%s" -> "%s" [style=solid]' % (package, depend), file=depends_file)
-        for package in depgraph["rdepends-pkg"]:
-            for rdepend in depgraph["rdepends-pkg"][package]:
-                print('"%s" -> "%s" [style=dashed]' % (package, rdepend), file=depends_file)
-        for package in depgraph["rrecs-pkg"]:
-            for rdepend in depgraph["rrecs-pkg"][package]:
-                print('"%s" -> "%s" [style=dotted]' % (package, rdepend), file=depends_file)
-        print("}", file=depends_file)
-        depends_file.close()
-        logger.info("Package dependencies saved to 'package-depends.dot'")
-
         tdepends_file = open('task-depends.dot', 'w' )
         print("digraph depends {", file=tdepends_file)
         for task in depgraph["tdepends"]:
